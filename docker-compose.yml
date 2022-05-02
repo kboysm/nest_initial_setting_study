@@ -1,0 +1,24 @@
+version: '3'
+service:
+  database:
+    # Dockerfile이 있는 위치
+    build: ./database
+    # 내부에서 개발할 포트 : 외부에서 개방할 포트
+    ports:
+      - '3306:3306'
+  backend:
+    build: ./backend
+    # 연결할 외부 디렉토리 : 컨테이너 내 디렉토리
+    volumn:
+      - ./backend:/usr/src/app
+    ports:
+      - '3000:3000'
+    # 환경변수 설정
+    environment:
+      - NODE_ENV=prod
+  frontend:
+    build: ./frontend
+    volumn:
+      - ./frontend:/home/node/app
+    ports:
+      - '8080:8080'
